@@ -12,5 +12,5 @@ worker:
     count: 2
 #是否使用长连接
 so:
-  keepalive:  true
+  keepalive: true
   backlog: 100

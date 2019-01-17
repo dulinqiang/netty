@@ -23,6 +23,8 @@ import java.util.Set;
  * @author
  * @Date 2019/1/10
  * @Description
+ * 1.boos对应，IOServer.java中的接受新连接线程，主要负责创建新连接
+ * 2.worker对应 IOClient.java中的负责读取数据的线程，主要用于读取数据以及业务逻辑处理
  */
 @Configuration
 @Slf4j
@@ -51,13 +53,13 @@ public class NettyConfig {
     @Bean(name = "serverBootstrap")
     public ServerBootstrap bootstrap() {
         ServerBootstrap b = new ServerBootstrap();
+        //服务端需要2个线程组  boss处理客户端连接  work进行客服端连接之后的处理
         b.group(bossGroup(), workerGroup())
                 .channel(NioServerSocketChannel.class)
                 .childHandler(protocolInitalizer);
         Map<ChannelOption<?>, Object> tcpChannelOptions = tcpChannelOptions();
         Set<ChannelOption<?>> keySet = tcpChannelOptions.keySet();
-        for (@SuppressWarnings("rawtypes")
-                ChannelOption option : keySet) {
+        for (ChannelOption option : keySet) {
             b.option(option, tcpChannelOptions.get(option));
         }
         return b;

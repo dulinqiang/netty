@@ -3,6 +3,7 @@ package netty.netty;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import lombok.Data;
@@ -33,6 +34,8 @@ public class StringProtocolInitalizer extends ChannelInitializer<SocketChannel> 
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
+        // HttpServerCodec：将请求和应答消息解码为HTTP消息
+        pipeline.addLast("http-codec",new HttpServerCodec());
         pipeline.addLast("decoder", stringDecoder);
         pipeline.addLast("handler", serverHandler);
         pipeline.addLast("encoder", stringEncoder);

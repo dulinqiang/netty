@@ -3,6 +3,7 @@ package netty.netty;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.net.InetSocketAddress;
  */
 @Component
 @Data
+@Slf4j
 public class TCPServer {
 
     @Autowired
@@ -32,7 +34,7 @@ public class TCPServer {
 
     @PostConstruct
     public void start() throws Exception {
-        System.out.println("Starting server at " + tcpPort);
+        log.info("Starting server at " + tcpPort);
         serverChannelFuture = b.bind(tcpPort).sync();
     }
 
